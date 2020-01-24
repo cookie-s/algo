@@ -4,12 +4,12 @@ struct LCA {
     long n, d;
 
     LCA(vector<long> &par) {
-        // par[root] == -1
+        // par[root] == root
         n = par.size();
         h.assign(n, -1);
         {
             auto dfs = [&](auto dfs, long cur) -> long {
-                if(par[cur] == -1) return h[cur] = 0;
+                if(par[cur] == cur) return h[cur] = 0;
                 if(h[cur] != -1) return h[cur];
                 return h[cur] = 1 + dfs(dfs, par[cur]);
             };
@@ -17,17 +17,14 @@ struct LCA {
                 dfs(dfs, i);
         }
 
-        d=1;
-        while(1L<<d < n) d++;
+        for(d=0; 1l<<d < n; d++);
 
         park.assign(d, vector<long>(n));
         copy(par.begin(), par.end(), park[0].begin());
 
         for(long k=1; k<d; k++)
-            for(long i=0; i<n; i++) {
-                if(park[k-1][i] == -1) continue;
+            for(long i=0; i<n; i++)
                 park[k][i] = park[k-1][park[k-1][i]];
-            }
     }
 
     long query(long u, long v) const {
