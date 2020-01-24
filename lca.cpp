@@ -31,10 +31,10 @@ struct LCA {
     }
 
     long query(long u, long v) const {
-        if(h[u] > h[v])
-            swap(u, v);
-        for(long i=d-1; i>=0; i--)
-            if(h[v]-h[u] >= 1L<<i)
+        if(h[u] > h[v]) swap(u, v);
+
+        for(long i=0; i<d; i++)
+            if((h[v]-h[u])>>i & 1)
                 v = park[i][v];
 
         if(v == u) return v;
