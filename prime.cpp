@@ -1,5 +1,4 @@
-class Prime {
-public:
+struct Prime {
     vector<char> nprime;
     Prime(size_t n) : nprime(n+1) {
         nprime[0] = nprime[1] = 1;
