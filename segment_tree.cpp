@@ -27,6 +27,8 @@ struct SegmentTree {
     }
 
     T query(size_t a, size_t b) const {
+        b = min(b, sz);
+        a = max((size_t)0, a);
         T l = e, r = e;
         for(a += sz, b += sz; a < b; a >>= 1, b >>= 1) {
             if(a & 1) l = f(l, tree[a++]);
@@ -43,6 +45,6 @@ struct SegmentTree {
 /*
    SegmentTree<long> st(n, [&](long a, long b){return min(a, b);}, 1e9);
    st.set(a.begin(), a.end());
-  
+
    [&](F a, F b) -> F { return {b.first * a.first % MOD, (b.first * a.second + b.second) % MOD};
- */
+*/
