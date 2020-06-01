@@ -43,7 +43,7 @@ struct SegmentTree {
 };
 
 /*
-   SegmentTree<long> st(n, [&](long a, long b){return min(a, b);}, 1e9);
+   SegmentTree<ll> st(n, [&](ll a, ll b){return min(a, b);}, 1e9);
    st.set(a.begin(), a.end());
 
    [&](F a, F b) -> F { return {b.first * a.first % MOD, (b.first * a.second + b.second) % MOD};
