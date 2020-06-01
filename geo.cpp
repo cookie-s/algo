@@ -9,7 +9,6 @@ double cross(lc a, lc b) {
 template<typename T>
 struct Convex {
     using P = complex<T>;
-    ll n;
     vector<ll> conv;
     vector<P> v;
 
@@ -19,7 +18,7 @@ struct Convex {
 
     Convex(const vector<P> &_v) {
         // incremental method
-        n = _v.size();
+        ll n = _v.size();
         v = _v;
 
         auto comp = [&](P a, P b) {
