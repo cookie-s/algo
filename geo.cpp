@@ -22,32 +22,18 @@ struct Convex {
         n = _v.size();
         v = _v;
 
-        sort(v.begin(), v.end(),
-                [&](P a, P b) {
-                return real(a) == real(b) ? imag(a) < imag(b) : real(a) < real(b);
-                });
+        auto comp = [&](P a, P b) {
+            return make_tuple(real(a),imag(a)) < make_tuple(real(b), imag(b));
+        };
+        sort(v.begin(), v.end(), comp);
 
-        P mp = v[0], Mp = v[n-1];
-
-        vector<ll> up, dn;
-        for(ll i=0; i<n; i++) {
-            P p = v[i];
-            if(cross(Mp - mp, p - mp) <= 0) {
-                // up
-                while(up.size()>=2 && cross(p - v[up[up.size()-1]], v[up[up.size()-2]] - v[up[up.size()-1]]) < 0)
-                    up.pop_back();
-                up.push_back(i);
-            }
-            if(cross(Mp - mp, p - mp) >= 0) {
-                // dn
-                while(dn.size()>=2 && cross(p - v[dn[dn.size()-1]], v[dn[dn.size()-2]] - v[dn[dn.size()-1]]) > 0)
-                    dn.pop_back();
-                dn.push_back(i);
-            }
-        }
-        reverse(up.begin(), up.end());
-        conv = up;
-        conv.insert(conv.end(), dn.begin()+1, dn.end()-1);
+        ll k = 0;
+        conv.resize(n+1);
+        for(ll i=n-1; i>=0; conv[k++] = i--) // up
+            while(k>=2 && cross(v[i] - v[conv[k-1]], v[conv[k-2]] - v[conv[k-1]]) > 0) k--;
+        for(ll i=1, t=k+1; i<n; conv[k++] = i++) // dn
+            while(k>=t && cross(v[i] - v[conv[k-1]], v[conv[k-2]] - v[conv[k-1]]) > 0) k--;
+        conv.resize(k-1);
     }
 
     P operator[](ll i) {
@@ -58,16 +44,21 @@ struct Convex {
     }
 
     double diam() {
-        ll i = 0, j;
-        j = find(conv.begin(), conv.end(), n-1) - conv.begin();
-        T res = norm((*this)[i] - (*this)[j]);
-        for(ll k=0; k<10*n; k++) {
-            if(cross((*this)[(i+1)%size()] - (*this)[i], (*this)[(j+1)%size()] - (*this)[j]) >= 0)
+        ll i=0, j=0;
+        for(ll k=0; k<size(); k++) {
+            if(imag((*this)[i]) < imag((*this)[k])) i = k;
+            if(imag((*this)[j]) > imag((*this)[k])) j = k;
+        }
+        ll si = i, sj = j;
+
+        T res = 0;
+        do {
+            res = max(res, norm((*this)[i] - (*this)[j]));
+            if(cross((*this)[(i+1)%size()] - (*this)[i], (*this)[(j+1)%size()] - (*this)[j]) <= 0)
                 j = (j+1) % size();
             else
                 i = (i+1) % size();
-            res = max(res, norm((*this)[i] - (*this)[j]));
-        }
+        } while(!(si == i && sj == j));
         return sqrt(res);
     }
 };
