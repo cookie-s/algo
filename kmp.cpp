@@ -1,3 +1,5 @@
+// https://github.com/atcoder-live/library/blob/master/mp.cpp
+//
 // Morris-Pratt
 // https://youtu.be/9MphwmIsO7Q?t=7283
 template<typename T>
