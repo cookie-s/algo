@@ -1,3 +1,5 @@
+// Mac: g++ -Wall -Wl,-stack_size -Wl,100000000 a.cpp -std=c++2a -O3
+
 #include<bits/stdc++.h>
 
 using namespace std;
