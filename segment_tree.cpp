@@ -1,3 +1,6 @@
+// https://github.com/ningenMe/compro-library/blob/master/lib/segment/LazySegmentTree.cpp
+// LazySegmentTree
+
 template <typename T>
 struct SegmentTree {
     using F = function<T(T, T)>;
