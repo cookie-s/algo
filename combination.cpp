@@ -21,7 +21,7 @@ using ll = long long;
         (ifact[i] = ifact[i+1] * (i+1)) %= MOD;
 
     auto comb = [&](ll a, ll b) {
-        if(a < b) return 0;
+        if(a < b) return 0ll;
         return ((fact[a] * ifact[b]) % MOD * ifact[a-b]) % MOD;
     };
 }
