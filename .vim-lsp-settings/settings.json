@@ -1,0 +1,6 @@
+{
+    "clangd": {
+        "//": "https://github.com/clangd/clangd/issues/55",
+        "cmd": ["clangd","-header-insertion=never"]
+    }
+}
